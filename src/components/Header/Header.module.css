@@ -1,0 +1,11 @@
+.Header {
+   grid-area: header;
+   background-color: rgb(136, 109, 245);
+   color: #fff;
+   font-size: 22px;
+   display: flex;
+   align-items: center;
+   flex-direction: column;
+   justify-content: center;
+   margin-bottom: 15px;
+}

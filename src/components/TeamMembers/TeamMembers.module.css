@@ -1,0 +1,45 @@
+.members {
+   text-align: center;
+}
+
+.membersTop {
+   margin-bottom: 30px;
+}
+
+.title {
+   font-size: 22px;
+   font-weight: 700;
+   margin-bottom: 10px;
+}
+
+.uploadBtn {
+   border: 1px solid #000;
+   padding: 6px 15px;
+   border-radius: 24px;
+}
+
+.uploadBtn span {
+   font-weight: 600;
+   background-color: #fff;
+   font-size: 20px;
+   transition: all 0.4s ease;
+   background: url('../../../assets/icons/upload.png') right center no-repeat;
+   padding: 0px 25px 0px 0px;
+}
+
+.uploadBtn:hover {
+   background-color: rgb(136, 109, 245);
+   border: 1px solid #000;
+}
+
+.uploadBtn:active {
+   transform: translate(2px, 3px);
+}
+
+.membersRow {
+   display: flex;
+   flex-wrap: wrap;
+   align-items: center;
+   justify-content: center;
+   gap: 20px;
+}
