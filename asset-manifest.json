@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/IPZ-spa-app/static/css/main.3a475d79.css",
+    "main.js": "/IPZ-spa-app/static/js/main.0b91adad.js",
+    "static/js/787.d95de738.chunk.js": "/IPZ-spa-app/static/js/787.d95de738.chunk.js",
+    "static/media/1.png": "/IPZ-spa-app/static/media/1.8f0b431bddd9bfc620fc.png",
+    "index.html": "/IPZ-spa-app/index.html",
+    "main.3a475d79.css.map": "/IPZ-spa-app/static/css/main.3a475d79.css.map",
+    "main.0b91adad.js.map": "/IPZ-spa-app/static/js/main.0b91adad.js.map",
+    "787.d95de738.chunk.js.map": "/IPZ-spa-app/static/js/787.d95de738.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3a475d79.css",
+    "static/js/main.0b91adad.js"
+  ]
+}
