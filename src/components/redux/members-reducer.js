@@ -1,86 +1,87 @@
 import { membersAPI } from '../DAL/api';
 
 const SET_MEMBERS = 'SET_MEMBERS';
+const SET_MEMBER_EXAMPLE = 'SET_MEMBER_EXAMPLE';
+const SET_CURRENT_MEMBER = 'SET_CURRENT_MEMBER';
 
 let initialState = {
-   members: [
-      {
-         id: 1,
-         name: 'Ivan',
-         surname: 'Hulak',
-         age: 20,
-         location: { state: 'Zhytomyr oblast', city: 'Zhytomyr' },
-         photo: 'https://www.shareicon.net/data/512x512/2016/05/29/772559_user_512x512.png',
-         aboutMe: 'I am Ivan Hulak. Cool man who are learning programming. yoy',
-         socials: {
-            facebook: '',
-            instagram: '',
-            gitHub: '',
-         },
-         hobby: 'football, tennis, billiard'
+   members: [],
+   memberExample: {
+      name: "Dog",
+      surname: "Cat",
+      age: 20,
+      location: {
+         state: "Test oblast",
+         city: "Test"
       },
-      {
-         id: 2,
-         name: 'Iryna',
-         surname: 'Stefanovych',
-         age: 20,
-         location: { state: 'Kyiv oblast', city: 'Kyiv' },
-         photo: 'https://www.shareicon.net/data/512x512/2016/05/29/772559_user_512x512.png',
-         aboutMe: 'I am Iryna Stefanovych. Cool girl who are learning programming. yoy',
-         socials: {
-            facebook: '',
-            instagram: '',
-            gitHub: '',
-         },
-         hobby: 'dance, music'
+      photo: "https://www.shareicon.net/data/512x512/2016/05/29/772559_user_512x512.png",
+      aboutMe: "test",
+      socials: {
+         facebook: "",
+         instagram: "https://www.instagram.com/vanya_hulak/?next=%2F",
+         gitHub: ""
       },
-      {
-         id: 3,
-         name: 'Dana',
-         surname: 'Ostrovska',
-         age: 20,
-         location: { state: 'Kyiv oblast', city: 'Kyiv' },
-         photo: 'https://www.shareicon.net/data/512x512/2016/05/29/772559_user_512x512.png',
-         aboutMe: 'I am Dana Ostrovska. Cool girl who are learning programming. yoy',
-         socials: {
-            facebook: '',
-            instagram: '',
-            gitHub: '',
-         },
-         hobby: 'dance, music'
-      },
-      {
-         id: 4,
-         name: 'Vitalii',
-         surname: 'Hutov',
-         age: 20,
-         location: { state: 'Kyiv oblast', city: 'Kyiv' },
-         photo: 'https://www.shareicon.net/data/512x512/2016/05/29/772559_user_512x512.png',
-         aboutMe: 'I am Vitalii Hutov. Cool man who are learning programming. yoy',
-         socials: {
-            facebook: '',
-            instagram: '',
-            gitHub: '',
-         },
-         hobby: 'proga, backend, spring'
-      },
-   ],
+      hobby: "test"
+   },
+   currentMember: ''
 }
 
 const membersReducer = (state = initialState, action) => {
    switch (action.type) {
       case SET_MEMBERS:
-         return { ...state, members: [...state.members, action.members] };
+         return { ...state, members: action.members };
+      case SET_MEMBER_EXAMPLE:
+         return { ...state, memberExample: action.member };
+      case SET_CURRENT_MEMBER:
+         return { ...state, currentMember: action.memberId };
       default: return state;
    }
 }
 
 const setMembers = (members) => ({ type: 'SET_MEMBERS', members });
+const setMemberExample = (member) => ({ type: 'SET_MEMBER_EXAMPLE', member });
+const setCurrentMember = (memberId) => ({ type: 'SET_CURRENT_MEMBER', memberId });
 
-export const requestMembers = () => (dispatch) => {
-   membersAPI.requestMembers().then(data => {
-      dispatch(setMembers(data.items));
-   })
+// Thunk creators
+export const requestMembers = () => {
+   return async (dispatch) => {
+      let data = await membersAPI.requestMembers();
+      dispatch(setMembers(data))
+   }
 }
+export const getMemberById = (memberId) => {
+   return async (dispatch) => {
+      let data = await membersAPI.getMemberById(memberId);
+      dispatch(setMemberExample(data))
+      dispatch(setCurrentMember(memberId))
+   }
+}
+export const deleteMember = (memberId) => (dispatch) => {
+   membersAPI.deleteMemberById(memberId)
+      .then(response => {
+         if (response.status === 200) {
+            alert(`Учаник #${memberId} видалений`)
+         } else {
+            alert(`Учаника #${memberId} не існує`)
+         }
+      })
+}
+export const createMember = (memberData) => {
+   return async (dispatch) => {
+      await membersAPI.createMember(memberData).then(data => {
+         alert(`Учаник #${data.name} ${data.surname} створений`)
+      });
+      dispatch(requestMembers())
+   }
+}
+export const updateMember = (memberId, memberData) => {
+   return async (dispatch) => {
+      await membersAPI.updateMember(memberId, memberData).then(data => {
+         alert(`Учаник #${data.name} ${data.surname} оновлений`)
+      });
+      dispatch(requestMembers())
+   }
+}
+
 
 export default membersReducer;
